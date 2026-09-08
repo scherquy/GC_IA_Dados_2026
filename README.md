@@ -1,5 +1,5 @@
 # João Victor da Rosa Schervensquy
-  <img src="./assets/avatar.png" width="500"/>
+  <img src="./assets/avatar.png" width="300"/>
 
 # Geração Caldeira - IA e Dados
 

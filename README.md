@@ -2,6 +2,7 @@
   <img src="./assets/iadados.png" width="700"/>
 </p>
 
+---
 <p align="center">
   <img src="./assets/avatar.png" width="300"/>
 </p>
@@ -9,7 +10,6 @@
 ---
 ## Conquistas
  <img src="./assets/conquistas.png" width="700"/>
-
 
 ---
 ## -  Conquistas

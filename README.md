@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="./assets/avatar.png" width="700"/>
+  <img src="./assets/avatar.png" width="300"/>
 </p>
 
 ---

@@ -1,2 +1,8 @@
-# GC_IA_Dados_2026
-Projetos desenvolvidos durante a trajetória na trilha de IA e Dados. Curso do geração caldeira de 2026
+# Geração Caldeira - IA e Dados
+
+<p align="center">
+  <img src="./assets/iadados.png" width="700"/>
+</p>
+
+## Conquistas
+ <img src="./assets/badges.png" width="700"/>

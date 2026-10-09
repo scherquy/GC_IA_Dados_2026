@@ -1,5 +1,5 @@
 '''
-Receber 2 nomes, 2 idades e fazer a soma das idades
+Receber dois nomes, duas idades e fazer a soma das idades
 '''
 
 nome1 = str(input("\nInforme o seu nome: "))

@@ -152,7 +152,13 @@ EXERCÍCIO 11 — Resumo dos salários
 Nível 3: Agregações, agrupamentos e subconsultas
 Mostre o maior salário, o menor salário, a soma dos salários e a média salarial da empresa inteira.
 
--- Não respondido
+-- Resumo dos salários
+
+-- Mostre o maior salário, o menor salário, a soma dos salários
+-- e a média salarial da empresa inteira.
+
+select max(SALARY), min(SALARY), sum(SALARY) as "SOMA SALÁRIOS", ROUND(AVG(SALARY), 2) as "MÉDIA SALARIAL"
+from HR.EMPLOYEES
 
 ----------------------------------------------------------------
 
@@ -160,7 +166,15 @@ EXERCÍCIO 12 — Departamentos acima da média
 Nível 3: Agregações, agrupamentos e subconsultas
 Exiba o ID de cada departamento e sua média salarial, mas apenas para departamentos cuja média salarial seja maior que $6.000.
 
--- Não respondido
+-- Departamentos acima da média
+
+-- Exiba o ID de cada departamento e sua média salarial,
+-- mas apenas para departamentos cuja média salarial seja maior que $6.000.
+
+select d.DEPARTMENT_ID, round(avg(e.SALARY), 2) as MEDIA_SALARIAL from HR.DEPARTMENTS d
+join HR.EMPLOYEES e on d.DEPARTMENT_ID = e.DEPARTMENT_ID
+group by d.DEPARTMENT_ID
+having avg(e.SALARY) > 6000;
 
 ----------------------------------------------------------------
 
@@ -168,7 +182,15 @@ EXERCÍCIO 13 — Maior folha por cargo
 Nível 3: Agregações, agrupamentos e subconsultas
 Descubra qual cargo (JOB_ID) possui o maior gasto total com salários (soma dos salários pagos aos funcionários do cargo).
 
--- Não respondido
+-- Maior folha por cargo
+
+-- Descubra qual cargo (JOB_ID) possui o maior gasto total com
+-- salários (soma dos salários pagos aos funcionários do cargo).
+
+select JOB_ID, sum(SALARY) as SOMA_SALARIO from HR.EMPLOYEES
+group by JOB_ID
+order by SOMA_SALARIO desc
+fetch first 1 rows only
 
 ----------------------------------------------------------------
 
@@ -176,7 +198,13 @@ EXERCÍCIO 14 — Acima da média da empresa
 Nível 3: Agregações, agrupamentos e subconsultas
 Selecione o primeiro nome e o salário dos funcionários que ganham mais do que a média salarial da empresa inteira. Use subconsulta.
 
--- Não respondido
+-- Acima da média da empresa
+
+-- Selecione o primeiro nome e o salário dos funcionários que
+-- ganham mais do que a média salarial da empresa inteira. Use subconsulta.
+
+select FIRST_NAME, SALARY from HR.EMPLOYEES
+where SALARY > (select avg(SALARY) from HR.EMPLOYEES)
 
 ----------------------------------------------------------------
 
@@ -184,7 +212,16 @@ EXERCÍCIO 15 — Colegas de Lex
 Nível 3: Agregações, agrupamentos e subconsultas
 Liste o primeiro nome e o ID do departamento dos funcionários que trabalham no mesmo departamento que um funcionário chamado Lex. Use subconsulta.
 
--- Não respondido
+-- Colegas de Lex
+
+-- Liste o primeiro nome e o ID do departamento dos funcionários
+-- que trabalham no mesmo departamento que um funcionário chamado Lex. Use subconsulta.
+
+select FIRST_NAME, DEPARTMENT_ID from HR.EMPLOYEES
+where DEPARTMENT_ID = (
+    select DEPARTMENT_ID from HR.EMPLOYEES 
+    where FIRST_NAME = 'Lex'
+)
 
 ----------------------------------------------------------------
 
@@ -192,7 +229,13 @@ EXERCÍCIO 16 — Simulação de aumento
 Nível 4: Desafios avançados
 Exiba o primeiro nome, salário atual e salário projetado com aumento de 15%, formatando os dois valores monetários com duas casas decimais.
 
--- Não respondido
+-- Simulação de aumento
+
+-- Exiba o primeiro nome, salário atual e salário projetado com
+-- aumento de 15%, formatando os dois valores monetários com duas casas decimais.
+
+select FIRST_NAME, to_char(SALARY, '00000.00') as SALARIO_ATUAL, to_char(SALARY * 1.15, '00000.00') as SALARIO_PROJETADO
+from HR.EMPLOYEES
 
 ----------------------------------------------------------------
 
@@ -200,7 +243,12 @@ EXERCÍCIO 17 — Tempo de casa
 Nível 4: Desafios avançados
 Mostre o primeiro nome de cada funcionário e quantos anos completos ele tem de empresa, contando desde HIRE_DATE até a data atual.
 
--- Não respondido
+-- Tempo de casa
+
+-- Mostre o primeiro nome de cada funcionário e quantos anos completos
+-- ele tem de empresa, contando desde HIRE_DATE até a data atual.
+
+select FIRST_NAME, trunc(MONTHS_BETWEEN(SYSDATE, HIRE_DATE) / 12) as ANOS_DE_EMPRESA from HR.EMPLOYEES
 
 ----------------------------------------------------------------
 
@@ -208,7 +256,20 @@ EXERCÍCIO 18 — Classificação por salário
 Nível 4: Desafios avançados
 Mostre o primeiro nome, salário e classificação: JÚNIOR para salários menores que 5.000, PLENO de 5.000 a 10.000 (inclusive) e SÊNIOR acima de 10.000. Use CASE.
 
--- Não respondido
+-- Classificação por salário
+
+-- Mostre o primeiro nome, salário e classificação:
+-- JÚNIOR para salários menores que 5.000
+-- PLENO de 5.000 a 10.000 (inclusive)
+-- SÊNIOR acima de 10.000. Use CASE.
+
+select FIRST_NAME, SALARY,
+       case 
+           when SALARY < 5000 then 'JÚNIOR'
+           when SALARY between 5000 and 10000 then 'PLENO'
+           else 'SÊNIOR'
+       end as CLASSIFICACAO
+from HR.EMPLOYEES
 
 ----------------------------------------------------------------
 
@@ -216,7 +277,13 @@ EXERCÍCIO 19 — Lista única de gerentes
 Nível 4: Desafios avançados
 Mostre o primeiro nome e o sobrenome de todos os gerentes da empresa, sem repetir nomes. Considere gerente quem aparece na coluna MANAGER_ID de algum funcionário.
 
--- Não respondido
+-- Lista única de gerentes
+
+-- Mostre o primeiro nome e o sobrenome de todos os gerentes da empresa, sem repetir nomes.
+-- Considere gerente quem aparece na coluna MANAGER_ID de algum funcionário.
+
+select distinct g.FIRST_NAME, g.LAST_NAME from HR.EMPLOYEES g
+join HR.EMPLOYEES e on g.EMPLOYEE_ID = e.MANAGER_ID
 
 ----------------------------------------------------------------
 
@@ -224,6 +291,15 @@ EXERCÍCIO 20 — Maior salário do departamento
 Nível 4: Desafios avançados
 Mostre o primeiro nome, salário e ID do departamento dos funcionários que recebem o maior salário dentro de seu próprio departamento.
 
--- Não respondido
+-- Maior salário do departamento
+
+-- Mostre o primeiro nome, salário e ID do departamento dos funcionários
+-- que recebem o maior salário dentro de seu próprio departamento.
+
+select e.FIRST_NAME, e.SALARY, e.DEPARTMENT_ID from HR.EMPLOYEES e
+where e.SALARY = (
+    select max(SALARY) from HR.EMPLOYEES
+    where DEPARTMENT_ID = e.DEPARTMENT_ID
+)
 
 ----------------------------------------------------------------
